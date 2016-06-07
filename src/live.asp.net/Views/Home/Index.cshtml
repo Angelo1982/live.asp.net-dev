@@ -37,6 +37,9 @@
             }
             else
             {
+                //Model.NextShowDateUtc.Value.Month-1: Java Skript benutzt einen 0 basierten Array für Monate. Ein Java Skript quirk.
+                //das "data-" ist ein HTML5 Ding, das beliebige Daten speichern kann (string). Diese Daten kann ich dann in JavaSkript 
+                //wieder verwenden. Siehe function getNextShowTime() im file site.js
                 <div class="next-episode text-center">
                     @if (Model.NextShowScheduled)
                     {
