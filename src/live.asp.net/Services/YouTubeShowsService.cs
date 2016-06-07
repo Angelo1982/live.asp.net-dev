@@ -95,16 +95,20 @@ namespace live.asp.net.Services
                 ApiKey = _appSettings.YouTubeApiKey
             }))
             {
-                var listRequest = client.PlaylistItems.List("snippet");
-                listRequest.PlaylistId = _appSettings.YouTubePlaylistId;
+                var listRequest = client.PlaylistItems.List("snippet"); //alles was ich über eine Youtubeliste wissen will
+                listRequest.PlaylistId = _appSettings.YouTubePlaylistId;//Nichts secret, das sieht man in der URL
                 listRequest.MaxResults = 3 * 8;
 
                 var requestStart = DateTimeOffset.UtcNow;
                 var playlistItems = await listRequest.ExecuteAsync();
+
+                //Wie lange dauert der Aufruf nach Youtube..
                 _telemetry.TrackDependency("YouTube.PlayListItemsApi", "List", requestStart, DateTimeOffset.UtcNow - requestStart, true);
 
                 var result = new ShowList();
 
+                //This is a Projection:
+                //Hier wird vom Youtub Datatyp in den eigenen Show Datatype projeziert.
                 result.Shows = playlistItems.Items.Select(item => new Show
                 {
                     Provider = "YouTube",
